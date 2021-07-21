@@ -15,6 +15,9 @@
 * [Side notes](#side-notes)
 * [Licenses](#license)
 
+## heads up
+Notice that there're many intentionally added comments and room for code polishment. These are left intentionally for teaching purpose.   
+
 ## presentation
 This work tries to do English text classification with TF-IDF and Neuron Network (NN). The goal is to train models from reddit corpus and test on slack conversations. The logic behind it is to classify and analyze conversations on chatting apps for marketing. It's done in python and tensorflow. There are three modules in the reposoitory:
 1. __Reddit scraping tool__. Scrap the reddit data in the hirerarchy of _subreddit--post--comments_ and saves to the database.
