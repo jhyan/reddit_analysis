@@ -1,0 +1,288 @@
+Question 1: Who dances best Bob or Hopper?
+|---id---|-length-|--score-|---time-------|--url------------
+['7dkcii', '  325', 0.2842, 1510947712, 'url: redd.it/7dkcii']
+['7easal', '   71', 0.1791, 1511230069, 'url: redd.it/7easal']
+['7agtp0', '  351', 0.1095, 1509707996, 'url: redd.it/7agtp0']
+['79gofz', '  161', 0.064, 1509315096, 'url: redd.it/79gofz']
+['5ydrvr', '  852', 0.0527, 1489073583, 'url: redd.it/5ydrvr']
+['7av2sk', ' 3290', 0.0436, 1509877839, 'url: redd.it/7av2sk']
+['7av52b', ' 1394', 0.0298, 1509878637, 'url: redd.it/7av52b']
+['5ykoji', ' 3138', 0.0239, 1489157496, 'url: redd.it/5ykoji']
+['7azrpq', ' 1926', 0.0228, 1509939679, 'url: redd.it/7azrpq']
+['5y68ks', ' 1143', 0.0173, 1488980976, 'url: redd.it/5y68ks']
++++++finished select nlp score\++++++
+
+['7av2sk', ' 3290', 0.0436, 1509877839, 'url: redd.it/7av2sk']
+['5ykoji', ' 3138', 0.0239, 1489157496, 'url: redd.it/5ykoji']
+['7azrpq', ' 1926', 0.0228, 1509939679, 'url: redd.it/7azrpq']
+['7av52b', ' 1394', 0.0298, 1509878637, 'url: redd.it/7av52b']
+['5y68ks', ' 1143', 0.0173, 1488980976, 'url: redd.it/5y68ks']
++++++finished select length+++++
+
+['7azrpq', ' 1926', 0.0228, 1509939679, 'url: redd.it/7azrpq']
++++++finished select time+++++
+
+Final match id for question: Who dances best Bob or Hopper?
+redd.it/7azrpq
+Runtime till now: 14s
+
+
+
+
+
+Question 2: Who really deserved to be Venkman?
+|---id---|-length-|--score-|---time-------|--url------------
+['7eg2fx', '  126', 0.1262, 1511277362, 'url: redd.it/7eg2fx']
+['7edb12', '   90', 0.122, 1511249970, 'url: redd.it/7edb12']
+['7azrpq', ' 1926', 0.094, 1509939679, 'url: redd.it/7azrpq']
+['7agtp0', '  351', 0.0927, 1509707996, 'url: redd.it/7agtp0']
+['7ehvvw', '  171', 0.0901, 1511300358, 'url: redd.it/7ehvvw']
+['5ydrvr', '  852', 0.0817, 1489073583, 'url: redd.it/5ydrvr']
+['7ec841', ' 2816', 0.0757, 1511241163, 'url: redd.it/7ec841']
+['7bfjsy', '38837', 0.0747, 1510111606, 'url: redd.it/7bfjsy']
+['5ykoji', ' 3138', 0.0732, 1489157496, 'url: redd.it/5ykoji']
+['7b9iut', '   50', 0.071, 1510043737, 'url: redd.it/7b9iut']
++++++finished select nlp score\++++++
+
+['7bfjsy', '38837', 0.0747, 1510111606, 'url: redd.it/7bfjsy']
+['5ykoji', ' 3138', 0.0732, 1489157496, 'url: redd.it/5ykoji']
+['7ec841', ' 2816', 0.0757, 1511241163, 'url: redd.it/7ec841']
+['7azrpq', ' 1926', 0.094, 1509939679, 'url: redd.it/7azrpq']
+['5ydrvr', '  852', 0.0817, 1489073583, 'url: redd.it/5ydrvr']
++++++finished select length+++++
+
+['7ec841', ' 2816', 0.0757, 1511241163, 'url: redd.it/7ec841']
++++++finished select time+++++
+
+Final match id for question: Who really deserved to be Venkman?
+redd.it/7ec841
+Runtime till now: 14s
+
+
+
+
+
+Question 3: Chief Hopper: creepily overprotective or the reason 11 is still free?
+|---id---|-length-|--score-|---time-------|--url------------
+['7ehzsy', '   21', 0.1161, 1511301474, 'url: redd.it/7ehzsy']
+['7dxrrx', '  215', 0.0833, 1511088164, 'url: redd.it/7dxrrx']
+['7ciel3', '  228', 0.0675, 1510552200, 'url: redd.it/7ciel3']
+['7b56ys', ' 1460', 0.0535, 1510004573, 'url: redd.it/7b56ys']
+['7e8cn9', '  300', 0.0529, 1511207602, 'url: redd.it/7e8cn9']
+['79gofz', '  161', 0.0521, 1509315096, 'url: redd.it/79gofz']
+['7dxnsl', '  159', 0.0505, 1511086964, 'url: redd.it/7dxnsl']
+['5ydrvr', '  852', 0.0498, 1489073583, 'url: redd.it/5ydrvr']
+['624ww3', ' 3819', 0.0485, 1490796015, 'url: redd.it/624ww3']
+['7av2sk', ' 3290', 0.0478, 1509877839, 'url: redd.it/7av2sk']
++++++finished select nlp score\++++++
+
+['624ww3', ' 3819', 0.0485, 1490796015, 'url: redd.it/624ww3']
+['7av2sk', ' 3290', 0.0478, 1509877839, 'url: redd.it/7av2sk']
+['7b56ys', ' 1460', 0.0535, 1510004573, 'url: redd.it/7b56ys']
+['5ydrvr', '  852', 0.0498, 1489073583, 'url: redd.it/5ydrvr']
+['7e8cn9', '  300', 0.0529, 1511207602, 'url: redd.it/7e8cn9']
++++++finished select length+++++
+
+['7e8cn9', '  300', 0.0529, 1511207602, 'url: redd.it/7e8cn9']
++++++finished select time+++++
+
+Final match id for question: Chief Hopper: creepily overprotective or the reason 11 is still free?
+redd.it/7e8cn9
+Runtime till now: 14s
+
+
+
+
+
+Question 4: What haircut should Steve have next?
+|---id---|-length-|--score-|---time-------|--url------------
+['7dztad', '  165', 0.109, 1511115780, 'url: redd.it/7dztad']
+['7easal', '   71', 0.1024, 1511230069, 'url: redd.it/7easal']
+['7egxtq', '   51', 0.1001, 1511289265, 'url: redd.it/7egxtq']
+['7efl7x', '   73', 0.0821, 1511271742, 'url: redd.it/7efl7x']
+['7e8cn9', '  300', 0.0705, 1511207602, 'url: redd.it/7e8cn9']
+['7eg13i', '   64', 0.0653, 1511276904, 'url: redd.it/7eg13i']
+['7b56ys', ' 1460', 0.0623, 1510004573, 'url: redd.it/7b56ys']
+['7ehgau', '  105', 0.0598, 1511295650, 'url: redd.it/7ehgau']
+['7b34fn', '   21', 0.0514, 1509974434, 'url: redd.it/7b34fn']
+['7dvaqj', '  172', 0.0506, 1511063761, 'url: redd.it/7dvaqj']
++++++finished select nlp score\++++++
+
+['7b56ys', ' 1460', 0.0623, 1510004573, 'url: redd.it/7b56ys']
+['7e8cn9', '  300', 0.0705, 1511207602, 'url: redd.it/7e8cn9']
+['7dvaqj', '  172', 0.0506, 1511063761, 'url: redd.it/7dvaqj']
+['7dztad', '  165', 0.109, 1511115780, 'url: redd.it/7dztad']
+['7ehgau', '  105', 0.0598, 1511295650, 'url: redd.it/7ehgau']
++++++finished select length+++++
+
+['7ehgau', '  105', 0.0598, 1511295650, 'url: redd.it/7ehgau']
++++++finished select time+++++
+
+Final match id for question: What haircut should Steve have next?
+redd.it/7ehgau
+Runtime till now: 14s
+
+
+
+
+
+Question 5: Who is the best bromance/romance on the show? Mileven (Mike & Eleven), Steve & Dustin, Dart & Dustin...
+|---id---|-length-|--score-|---time-------|--url------------
+['79h28s', '   13', 0.2297, 1509319566, 'url: redd.it/79h28s']
+['7eiwko', '  230', 0.1636, 1511309381, 'url: redd.it/7eiwko']
+['7eguc7', ' 1039', 0.1484, 1511287945, 'url: redd.it/7eguc7']
+['7e8xt0', '   42', 0.1369, 1511214268, 'url: redd.it/7e8xt0']
+['7eftpl', '  144', 0.1351, 1511274461, 'url: redd.it/7eftpl']
+['7eefvz', ' 9576', 0.1278, 1511260164, 'url: redd.it/7eefvz']
+['7ei3p0', '  144', 0.1252, 1511302451, 'url: redd.it/7ei3p0']
+['7eiijw', '   44', 0.1126, 1511306160, 'url: redd.it/7eiijw']
+['7ehe4u', '   28', 0.1062, 1511294967, 'url: redd.it/7ehe4u']
+['7ecmi2', ' 1250', 0.0999, 1511244333, 'url: redd.it/7ecmi2']
++++++finished select nlp score\++++++
+
+['7eefvz', ' 9576', 0.1278, 1511260164, 'url: redd.it/7eefvz']
+['7ecmi2', ' 1250', 0.0999, 1511244333, 'url: redd.it/7ecmi2']
+['7eguc7', ' 1039', 0.1484, 1511287945, 'url: redd.it/7eguc7']
+['7eiwko', '  230', 0.1636, 1511309381, 'url: redd.it/7eiwko']
+['7eftpl', '  144', 0.1351, 1511274461, 'url: redd.it/7eftpl']
++++++finished select length+++++
+
+['7eiwko', '  230', 0.1636, 1511309381, 'url: redd.it/7eiwko']
++++++finished select time+++++
+
+Final match id for question: Who is the best bromance/romance on the show? Mileven (Mike & Eleven), Steve & Dustin, Dart & Dustin...
+redd.it/7eiwko
+Runtime till now: 15s
+
+
+
+
+
+Question 6: Who’s cooler---Billy or Steve?
+|---id---|-length-|--score-|---time-------|--url------------
+['7b34fn', '   21', 0.4055, 1509974434, 'url: redd.it/7b34fn']
+['7b56ys', ' 1460', 0.1885, 1510004573, 'url: redd.it/7b56ys']
+['7dxrrx', '  215', 0.1369, 1511088164, 'url: redd.it/7dxrrx']
+['7b9iut', '   50', 0.12, 1510043737, 'url: redd.it/7b9iut']
+['7aqpdd', '  294', 0.0698, 1509831937, 'url: redd.it/7aqpdd']
+['7dwzwb', '  329', 0.0649, 1511079963, 'url: redd.it/7dwzwb']
+['624ww3', ' 3819', 0.0481, 1490796015, 'url: redd.it/624ww3']
+['616krn', '  350', 0.0451, 1490352850, 'url: redd.it/616krn']
+['7djls4', ' 7016', 0.0443, 1510937847, 'url: redd.it/7djls4']
+['5ykoji', ' 3138', 0.04, 1489157496, 'url: redd.it/5ykoji']
++++++finished select nlp score\++++++
+
+['7djls4', ' 7016', 0.0443, 1510937847, 'url: redd.it/7djls4']
+['624ww3', ' 3819', 0.0481, 1490796015, 'url: redd.it/624ww3']
+['5ykoji', ' 3138', 0.04, 1489157496, 'url: redd.it/5ykoji']
+['7b56ys', ' 1460', 0.1885, 1510004573, 'url: redd.it/7b56ys']
+['616krn', '  350', 0.0451, 1490352850, 'url: redd.it/616krn']
++++++finished select length+++++
+
+['7djls4', ' 7016', 0.0443, 1510937847, 'url: redd.it/7djls4']
++++++finished select time+++++
+
+Final match id for question: Who’s cooler---Billy or Steve?
+redd.it/7djls4
+Runtime till now: 15s
+
+
+
+
+
+Question 7: Was there #Justice4Barb?
+|---id---|-length-|--score-|---time-------|--url------------
+['7efq6f', '   10', 0.3473, 1511273327, 'url: redd.it/7efq6f']
+['7agtp0', '  351', 0.2783, 1509707996, 'url: redd.it/7agtp0']
+['7e9grf', '  915', 0.2577, 1511219298, 'url: redd.it/7e9grf']
+['7bfjsy', '38837', 0.2376, 1510111606, 'url: redd.it/7bfjsy']
+['7e43ro', '13598', 0.2373, 1511159641, 'url: redd.it/7e43ro']
+['7ea298', '  201', 0.1917, 1511224367, 'url: redd.it/7ea298']
+['7eefvz', ' 9576', 0.1853, 1511260164, 'url: redd.it/7eefvz']
+['7e0piy', '15121', 0.1804, 1511128549, 'url: redd.it/7e0piy']
+['7egp9e', '   84', 0.1795, 1511286088, 'url: redd.it/7egp9e']
+['7ed6gu', ' 1086', 0.1759, 1511248913, 'url: redd.it/7ed6gu']
++++++finished select nlp score\++++++
+
+['7bfjsy', '38837', 0.2376, 1510111606, 'url: redd.it/7bfjsy']
+['7e0piy', '15121', 0.1804, 1511128549, 'url: redd.it/7e0piy']
+['7e43ro', '13598', 0.2373, 1511159641, 'url: redd.it/7e43ro']
+['7eefvz', ' 9576', 0.1853, 1511260164, 'url: redd.it/7eefvz']
+['7ed6gu', ' 1086', 0.1759, 1511248913, 'url: redd.it/7ed6gu']
++++++finished select length+++++
+
+['7eefvz', ' 9576', 0.1853, 1511260164, 'url: redd.it/7eefvz']
++++++finished select time+++++
+
+Final match id for question: Was there #Justice4Barb?
+redd.it/7eefvz
+Runtime till now: 15s
+
+
+
+
+
+Question 8: Which girl should be with Mike----Eleven or Max?
+|---id---|-length-|--score-|---time-------|--url------------
+['7b56ys', ' 1460', 0.2067, 1510004573, 'url: redd.it/7b56ys']
+['7cst17', '   27', 0.1702, 1510658783, 'url: redd.it/7cst17']
+['7ciel3', '  228', 0.1286, 1510552200, 'url: redd.it/7ciel3']
+['79yqdk', '   13', 0.0931, 1509511593, 'url: redd.it/79yqdk']
+['7b3obf', '  232', 0.0732, 1509982100, 'url: redd.it/7b3obf']
+['7dxrrx', '  215', 0.0701, 1511088164, 'url: redd.it/7dxrrx']
+['7aqpdd', '  294', 0.0606, 1509831937, 'url: redd.it/7aqpdd']
+['79h28s', '   13', 0.0554, 1509319566, 'url: redd.it/79h28s']
+['5ydrvr', '  852', 0.047, 1489073583, 'url: redd.it/5ydrvr']
+['7av2sk', ' 3290', 0.0422, 1509877839, 'url: redd.it/7av2sk']
++++++finished select nlp score\++++++
+
+['7av2sk', ' 3290', 0.0422, 1509877839, 'url: redd.it/7av2sk']
+['7b56ys', ' 1460', 0.2067, 1510004573, 'url: redd.it/7b56ys']
+['5ydrvr', '  852', 0.047, 1489073583, 'url: redd.it/5ydrvr']
+['7aqpdd', '  294', 0.0606, 1509831937, 'url: redd.it/7aqpdd']
+['7b3obf', '  232', 0.0732, 1509982100, 'url: redd.it/7b3obf']
++++++finished select length+++++
+
+['7b56ys', ' 1460', 0.2067, 1510004573, 'url: redd.it/7b56ys']
++++++finished select time+++++
+
+Final match id for question: Which girl should be with Mike----Eleven or Max?
+redd.it/7b56ys
+Runtime till now: 15s
+
+
+
+
+
+Question 9: Who should’ve danced with Dustin at the Snow Ball? 
+|---id---|-length-|--score-|---time-------|--url------------
+['79h28s', '   13', 0.1236, 1509319566, 'url: redd.it/79h28s']
+['5z1wxp', '  288', 0.1132, 1489392526, 'url: redd.it/5z1wxp']
+['79zpp2', '   42', 0.0457, 1509520674, 'url: redd.it/79zpp2']
+['7ef8cr', '   42', 0.0394, 1511267933, 'url: redd.it/7ef8cr']
+['7bfn4e', '  209', 0.0369, 1510112391, 'url: redd.it/7bfn4e']
+['7eek7s', ' 1589', 0.0363, 1511261325, 'url: redd.it/7eek7s']
+['7bfjsy', '38837', 0.0358, 1510111606, 'url: redd.it/7bfjsy']
+['7apm9c', '    6', 0.0322, 1509814572, 'url: redd.it/7apm9c']
+['5y68ks', ' 1143', 0.0321, 1488980976, 'url: redd.it/5y68ks']
+['7azrpq', ' 1926', 0.031, 1509939679, 'url: redd.it/7azrpq']
++++++finished select nlp score\++++++
+
+['7bfjsy', '38837', 0.0358, 1510111606, 'url: redd.it/7bfjsy']
+['7azrpq', ' 1926', 0.031, 1509939679, 'url: redd.it/7azrpq']
+['7eek7s', ' 1589', 0.0363, 1511261325, 'url: redd.it/7eek7s']
+['5y68ks', ' 1143', 0.0321, 1488980976, 'url: redd.it/5y68ks']
+['5z1wxp', '  288', 0.1132, 1489392526, 'url: redd.it/5z1wxp']
++++++finished select length+++++
+
+['7eek7s', ' 1589', 0.0363, 1511261325, 'url: redd.it/7eek7s']
++++++finished select time+++++
+
+Final match id for question: Who should’ve danced with Dustin at the Snow Ball? 
+redd.it/7eek7s
+Runtime till now: 16s
+
+
+
+
+
