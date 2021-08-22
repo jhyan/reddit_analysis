@@ -9,6 +9,7 @@ and submission_id will be serving as foreign keys to the other two tables.
 
 import pandas as pd
 from db_connect import *# Connect to SQL
+from db_connect import *
 
 try:
       cur.execute("""
