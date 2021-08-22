@@ -14,9 +14,6 @@ password = "ji@hany@n2473"
 user = "postgres"
 # user = os.environ["SQL_USERNAME"]
 # password = os.environ["SQL_PASSWORD"]
-
-
-
 # define con and cur here to save future definition
 try:
 	con = psycopg2.connect(
@@ -29,4 +26,4 @@ try:
 	con = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
 	cur = con.cursor()
 except:
-	print "connection failure"
+	print("connection failure")
