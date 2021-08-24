@@ -23,7 +23,9 @@ This work tries to do English text classification with TF-IDF and Neuron Network
 1. __Tensorflow test__. Build a neuron netword model for text classification. Generates logs for tensorboard visualization.
 
 ## installation
-FIrst, pull all the files down first to branch except the venv folder. Second, execute the below bash code.
+FIrst, set the virtual environment (e.g. https://programwithus.com/learn/python/pip-virtualenv-mac)
+
+Second, execute the below bash code.
 ```bash
 pip install -r requirement.txt
 ```
