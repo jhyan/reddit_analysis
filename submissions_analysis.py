@@ -10,8 +10,10 @@ Workflow:
 
 
 from db_connect import *
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import WordPunctTokenizer
+nltk.download('averaged_perceptron_tagger')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
 from collections import defaultdict
@@ -22,15 +24,16 @@ import pandas as pd
 import re
 import numpy as np
 import nltk
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import time
 
 
-# add this line before the running: sudo service postgresql restart
+# run this line before the running: sudo service postgresql restart
 # sudo psql testdb postgres; \d; then select directly
 # shortlink. redd.it/id
 
-# VOCAB_CNT = 5
 SCORE_CRITERIA = 3
 LENGTH_CRITERIA = 2
 TIME_CRITERIA = 1
@@ -132,8 +135,8 @@ def gen_docs(data, docs, submissions,
 						else:
 							tokens_stemed.append(token)
 
-				# tokens_stemed.extend([stemmer.stem(t) for t in tokens 
-				# 						if alpha_filter(t) and t.lower() not in stopwords]) 
+				tokens_stemed.extend([stemmer.stem(t) for t in tokens 
+										if alpha_filter(t) and t.lower() not in stopwords]) 
 			# vocab.extend(gen_vocabulary(tokens_stemed, VOCAB_CNT))
 			if DEBUG == 2:
 				print "{0} has {1} tokens".format(submission_id, len(tokens_stemed))
@@ -149,7 +152,6 @@ def addon_docs(submission_time_lookup, QUESTION):
 	add_on[0] = {0:[QUESTION]} # need to be a int -> list relation
 	submission_time_lookup[0] = int(time.time())
 	gen_docs(add_on, docs, submissions)
-	# vocab = set(vocab)
 	if DEBUG == 2:
 		print 'there are {0} submissions and {1} docs\n'.format(len(submissions), len(docs))
 
@@ -164,7 +166,7 @@ def gen_stats(docs):
 
 	stats = []
 	for i in range(row-1): # exclude the last element (the actual question) 
-		# cosine more smalller, more similar. So use 1-x to reverse the interpretation
+		# https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/cosdist.htm
 		try:
 			score = 1 - cosine(tfidf_matrix[i].todense(), tfidf_matrix[row-1].todense())
 		except:

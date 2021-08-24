@@ -1,3 +1,4 @@
+
 # Ptah
 
 #### Table of Contents
@@ -5,7 +6,6 @@
 * [Installation](#installation)
 * [Running](#running)
     * [Reddit scraping tool](#reddit-st)
-    * [Slack scraping tool](#slack-st)
     * [Corpus correlation analysis](#Corpus-correlation)
     * [Reddit recommendation system](#Recommendation-system)
     * [Tensorflow-analysis](#tensorflow-analysis)
@@ -15,22 +15,57 @@
 * [Side notes](#side-notes)
 * [Licenses](#license)
 
-## heads up
-Notice that there're many intentionally added comments and room for code polishment. These are left intentionally for teaching purpose.   
-
 ## presentation
 This work tries to do English text classification with TF-IDF and Neuron Network (NN). The goal is to train models from reddit corpus and test on slack conversations. The logic behind it is to classify and analyze conversations on chatting apps for marketing. It's done in python and tensorflow. There are three modules in the reposoitory:
 1. __Reddit scraping tool__. Scrap the reddit data in the hirerarchy of _subreddit--post--comments_ and saves to the database.
-2. __Slack scraping tool__. Lay a bot in a slack channel and fetch the conversation history. Also has the real-time listening function.
-3. __Corpus correlation analysis__. Pulls data from database and runs a tfidf analysis of different subreddits. Generates correlation graphs.
-4. __Reddit recommendation system__. Taken into consideration the tfidf score, post time, post length, upvotes, word tag amplification, to recommend a most related reddit submission.
-5. __Tensorflow test__. Build a neuron netword model for text classification. Generates logs for tensorboard visualization.
+1. __Corpus correlation analysis__. Pulls data from database and runs a tfidf analysis of different subreddits. Generates correlation graphs.
+1. __Reddit recommendation system__. Taken into consideration the tfidf score, post time, post length, upvotes, word tag amplification, to recommend a most related reddit submission.
+1. __Tensorflow test__. Build a neuron netword model for text classification. Generates logs for tensorboard visualization.
 
 ## installation
 FIrst, pull all the files down first to branch except the venv folder. Second, execute the below bash code.
 ```bash
 pip install -r requirement.txt
 ```
+
+If there're errors, follow the below sections:
+
+Install PostgreSQL:
+1.  Install postgres app https://postgresapp.com/downloads.html
+1.  export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
+1.  pip install psycopg2
+1.  brew install postgresql
+1.  brew services start postgresql
+
+After PostgreSQL installation, for the first time to config the postgreSQL db server, in terminal do:
+```bash
+psql postgres
+```
+
+Then do 
+```bash
+CREATE ROLE postgres WITH LOGIN PASSWORD 'pass123';
+ALTER ROLE postgres CREATEDB;
+CREATE DATABASE testdb;
+```
+
+Notice that during development process, if you want to drop the tables to prevent duplicate data and it takes too long for running the drop_tables.py, do:
+
+```bash
+brew services stop postgresql
+brew services start postgresql
+dropdb testdb
+```
+
+After dropping the table, to recreate again:
+```bash
+psql postgres
+```
+Then do 
+```base
+CREATE DATABASE testdb;
+```
+
 ## running
 ### reddit-st
 Run the below:
@@ -66,7 +101,7 @@ python submissions_analysis.py
 ### tensorflow-analysis
 First, run the below code in bash:
 ```bash
-./test.sh -l 0.01
+sh ./test.sh -l 0.01
 ```
 Optional parameters table:
 
@@ -84,7 +119,7 @@ tensorboard --logdir='logs/'
 
 ### results
 __reddit scraping tool__:
-The tool scrapes reddit following a hierarchy of subreddit--post--comment. The logic behind it is to store info of subreddit first into the db. Then use the subreddit info in db to obtain the lower layers: posts and comments.
+The tool scrapes reddit following a hierarchy of subreddit--submissions--comment. The logic behind it is to store info of subreddit first into the db. Then use the subreddit info in db to obtain the lower layers: posts and comments.
 
 File details:
 _dbconnect_: try to connect with the cloud psql database. Can also connect to local db. A try-except is applied to inspect the failure of connection. The file would yield a db cursor (variable _cur_) and imported into the _create_table_ file.
@@ -163,20 +198,9 @@ define instance of data manager --> define graph (input place holder; model; los
 3. How to see it as a product and where to position in the Sympler product design line.
 
 ## side-notes
-slack bot:
-* id: U70UB5SUF
-* token: xoxb-238963196967-cUBXeOoXlfZypALVDLA7LsMJ
-
 reddit bot:
 * client_id='qrbjP0JQu3Uo1Q',
 * client_secret='lyFcQOLLN1OeH1a4-BE5WIJeWgM',
 * user_agent = 'doe nlp usage',
 * username='sisyphus_bot',
 * password='Sympler1~'
-
-database:
-* dbname = 'slack_db'
-* host = '35.196.43.107'
-* port = '5432'
-* password = "ji@hany@n2473"
-* user = "postgres""# reddit_analysis" 

@@ -8,6 +8,8 @@ tfidf vector --> fit transform docs --> seaborn module draw figure --> snakeviz 
 
 
 from db_connect import *
+import nltk
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import WordPunctTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -17,15 +19,12 @@ import pandas as pd
 import re
 import numpy as np
 import nltk
+import matplotlib
+matplotlib.use('agg') # for solving matplotpib compatibility issue
 import matplotlib.pyplot as plt
 import time
 
-# experiment hyper parameters: vocabulary count, min_df, max_df
 
-
-
-
-VOCAB_CNT = 5
 old_time = time.time()
 
 # helper functions
@@ -50,26 +49,19 @@ def gen_vocabulary(lst, cnt):
 
 # interaction between panda and psql to retrieve python format data
 all_subreddits 		= pd.read_sql("SELECT id FROM main_subreddits", con)['id'].tolist()
-# all_subreddit_names = pd.read_sql("SELECT name FROM main_subreddits", con)['name'].tolist()
-
 # chosen_subreddits = [ 'Fitness', 'java', 'python','datascience', 'MachineLearning']
 chosen_subreddits = ['StrangerThings', 'TheUpsideDown', 'Stranger_Things', 'netflix']
-data = {} 
+subreddit_to_comment_tokens_dict = {} 
 for i, subreddit_id in enumerate(all_subreddits):
     sql_query = "SELECT content FROM main_comments WHERE subreddit_id = '%s'" % subreddit_id
     data_local = pd.read_sql(sql_query, con)['content'].tolist()
-    data[chosen_subreddits[i]] = data_local
-
-chosen_subreddits.append("newdoc")
-data['newdoc'] = "I love python. Last week I chat with a google engineer about tensorflow. Programming language algorithm".split() # need to be a list of strings to get value
-
+    subreddit_to_comment_tokens_dict[chosen_subreddits[i]] = data_local
 
 
 # stemmer and filter stop words, build vocabulary
 lancaster = nltk.LancasterStemmer() # apply lancaster stemmer
 stopwords = stopwords.words('english') # 153 stop words. a list.
-vocab = [] # build the vocabulary for tfidf analysis
-for subreddit, subreddit_comments in data.items():
+for subreddit, subreddit_comments in subreddit_to_comment_tokens_dict.items():
 	tokens_stemed = []
 	for comment in subreddit_comments:
 		tokens = WordPunctTokenizer().tokenize(comment)
@@ -81,27 +73,18 @@ for subreddit, subreddit_comments in data.items():
 				continue
 		tokens_stemed.extend([lancaster.stem(t) for t in tokens \
 								if alpha_filter(t) and t.lower() not in stopwords]) 
-		# vocab.extend(gen_vocabulary(tokens_stemed, VOCAB_CNT))
-	# print "{0} has {1} tokens".format(subreddit, len(tokens_stemed))
-	data[subreddit] = " ".join(tokens_stemed)
-vocab = set(vocab)
-# print data["newdoc"]
+	subreddit_to_comment_tokens_dict[subreddit] = " ".join(tokens_stemed)
 
-################################################## tf-idf try out ##############################################
+################################################## tf-idf heatmap analysis ##############################################
 #  transform the documents into tf-idf vectors, then compute the cosine similarity between them
 # http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
-
-# np.set_printoptions(formatter={"float":"{:10.3f}".format})
 # TfidfVectorizer is a CountVectorizer followed by TfidfTransformer.
-vect = TfidfVectorizer(min_df=1)
-# vect is <class 'sklearn.feature_extraction.text.TfidfVectorizer'>. The vocab slows the process. What is excactly a vectorizer???
-# feature_names = vect.get_feature_names()
-# print feature_names[:] # first batch is a few some magic class method names
+vect = TfidfVectorizer(min_df=1) # <class 'sklearn.feature_extraction.text.TfidfVectorizer'>.  
 
 # chosen subreddits
-docs = [data[k] for k in chosen_subreddits] # list of strings
+docs = [subreddit_to_comment_tokens_dict[subreddit] for subreddit in chosen_subreddits]
 tfidf_matrix = vect.fit_transform(docs) # <class 'scipy.sparse.csr.csr_matrix'>
-# print tfidf_matrix.shape
+# print tfidf_matrix.shape to see the shape of the matrix
 
 print "chosen subreddits: ", chosen_subreddits
 x = (tfidf_matrix * tfidf_matrix.T).A # numpy.darray. class object multiplication. implies the cos similarity: one doc tfidf vector cosine another one
@@ -109,8 +92,9 @@ df = pd.DataFrame(x, columns=chosen_subreddits, index=chosen_subreddits)
 
 # draw figure
 import seaborn as sns
-sns.heatmap(df, annot = True, cmap='PuBu') # cmap is color mapping
-plt.xticks(rotation = 0)
+sns.heatmap(df, annot = True, cmap='PuBu') # cmap means color mapping
+print df
+plt.xticks(rotation = 5)
 print 'Runtime: ' + str(int(time.time() - old_time)) + "s"
-plt.show()
+plt.savefig('./subreddits_analysis_result.png')
 

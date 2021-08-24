@@ -1,6 +1,5 @@
 '''
-Scrape the reddit data and save to db.
-Implemented by three layered for loops and praw api.
+Scrape the reddit data and save to the database.
 '''
 
 import os
@@ -13,10 +12,11 @@ from create_table import *
 from multiprocessing.dummy import Pool
 
 
-old_time = time.time()
 HOT_CNT = 100
+COMMENTS_THRESHOLD = 500
 
-# some helper functions
+old_time = time.time()
+
 def convert_secs(secs_float):
 	"""
 	Takes a number of seconds and returns datetime
@@ -24,33 +24,23 @@ def convert_secs(secs_float):
 	return datetime.fromtimestamp(secs_float).strftime("%B %d, %Y %I:%M:%S")
 
 
-comments_threshold = 5000 # global
+
 reddit = praw.Reddit(client_id='qrbjP0JQu3Uo1Q',
                      client_secret='lyFcQOLLN1OeH1a4-BE5WIJeWgM',
-                     user_agent = 'doe nlp usage',
+                     user_agent = 'doe nlp usage', # user_agent is just a description
                      username='sisyphus_bot',
-                     password='Sympler1~') # user_agent is just a description
-print("I am slock bot {0}".format(reddit.user.me()))
+                     password='Sympler1~') 
+print("I am reddit bot {0}".format(reddit.user.me()))
 
 
-# only after con.commit can all the sql causes be valid
 # chosen_subreddits = [ 'Fitness', 'java', 'python','datascience', 'MachineLearning']
 chosen_subreddits = ['StrangerThings', 'TheUpsideDown', 'Stranger_Things', 'netflix']
 for i in range(len(chosen_subreddits)):
-    subreddit = reddit.subreddit(chosen_subreddits[i]) # get subreddit by a string name
-    # store subreddit data into the database
+    subreddit = reddit.subreddit(chosen_subreddits[i])
     db_tuple = (subreddit.id, chosen_subreddits[i], subreddit.title, int(subreddit.created), 0)
     print db_tuple
     sql_query = """INSERT INTO main_subreddits VALUES (%s, %s, %s, %s, %s)"""
     cur.execute(sql_query, db_tuple) # use tuple to insert
-
-# # the below would have different outputs
-# def f(x):
-#     print x**2
-# pool = Pool(3)
-# result = pool.map(f, [1,2,3,4,5])
-# pool.close()
-# pool.join()
 
 
 ############# database is down ##############
@@ -88,8 +78,7 @@ for i in range(pull_df.shape[0]):
         # The rest is for pretty tracking of progress
         sys.stdout.write("\rComments processed: {0}, Submissions processed: {1}".format(comment_count, submissions_cnt)) # print i, comma means wait for all to finish. \r and \n cannot be used together
         sys.stdout.flush()
-        # Exit if you've downloaded more than comments_threshold comments
-        if comment_count > comments_threshold: break
+        if comment_count > COMMENTS_THRESHOLD: break
     
     print '  Runtime: ' + str(int(time.time() - t_start)) + "s"
     print '-' * 50
