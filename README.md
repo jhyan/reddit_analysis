@@ -16,7 +16,7 @@
 * [Licenses](#license)
 
 ## presentation
-This work tries to do English text classification with TF-IDF and Neuron Network (NN). The goal is to train models from reddit corpus and test on slack conversations. The logic behind it is to classify and analyze conversations on chatting apps for marketing. It's done in python and tensorflow. There are three modules in the reposoitory:
+This work tries to do English text classification with TF-IDF and Neuron Network (NN). It's done in python and tensorflow. The modules in the reposoitory:
 1. __Reddit scraping tool__. Scrap the reddit data in the hirerarchy of _subreddit--post--comments_ and saves to the database.
 1. __Corpus correlation analysis__. Pulls data from database and runs a tfidf analysis of different subreddits. Generates correlation graphs.
 1. __Reddit recommendation system__. Taken into consideration the tfidf score, post time, post length, upvotes, word tag amplification, to recommend a most related reddit submission.
@@ -75,19 +75,6 @@ Run the below:
 python get_reddit_data.py
 ```
 
-### slack-st
-First, print bot id to visualize.
-```bash
-export SLACK_BOT_TOKEN='xoxb-238963196967-cUBXeOoXlfZypALVDLA7LsMJ'
-python print_bot_id.py
-```
-Second, use the printed bot-ID to run the slack-bot.
-```bash
-export BOT_ID='U70UB5SUF' 
-python slack_bot.py
-```
-Tht bot should be running actively now on slack and listening to Sympler's dewvelopment team's conversation.
-
 ### Corpus-correlation
 Run the below code in bash:
 ```bash
@@ -128,14 +115,6 @@ _dbconnect_: try to connect with the cloud psql database. Can also connect to lo
 _create_table_: three tables are created, namely main_subreddits, main_submissions and main_comments. The primary key is their ids. Notice that in table _main_comments_, the _subreddit_id_ and _submission_id_ will be serving as foreign keys to the other two tables.
 _drop_tables_: a separate file that drops all tables in the db (cleans the db).
 _get_reddit_data_: Scrape the reddit data and save to db. Implemented by three layered for loops and praw api.
-
-
-__slack scraping tool__:
-After running, there will be a bot running in the backend listening to the channel assigned. It has the ability to deal with both the real time interaction info and the history info.
-
-File details:
-_print_bot_id.py_: a snippet to print the slack bot id given the name of the bot.
-_slack_bot.py_: a while-true loop utilizing the rtm(real-time-messaging) api is able to read the real time conversation. The text history is fetched into chunks and parsed using regular expression. The message history is stored in _slack_history.txt_.
 
 
 __corpus correlation analysis__:
