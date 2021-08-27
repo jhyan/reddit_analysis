@@ -20,5 +20,5 @@ for row in rows:
     print("dropping table:", row[1])   
     cur.execute("drop table " + row[1] + " cascade") 
     print("finish one")   
-cur.close()
+# cur.close()
 con.commit()

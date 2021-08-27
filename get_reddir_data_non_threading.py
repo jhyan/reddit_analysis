@@ -8,14 +8,15 @@ import praw
 import sys
 import time
 from datetime import datetime
-import concurrent.futures
 from drop_tables import *
 from create_table import *
 
 HOT_CNT = 10
-COMMENTS_THRESHOLD = 50 # the smaller, the faster, but with less prediction accuracy
+# the smaller, the faster, but with less prediction accuracy
+COMMENTS_THRESHOLD = 50
 
 old_time = time.time()
+
 
 def convert_secs(secs_float):
     """
@@ -23,11 +24,12 @@ def convert_secs(secs_float):
     """
     return datetime.fromtimestamp(secs_float).strftime("%B %d, %Y %I:%M:%S")
 
+
 reddit = praw.Reddit(client_id='qrbjP0JQu3Uo1Q',
                      client_secret='lyFcQOLLN1OeH1a4-BE5WIJeWgM',
-                     user_agent = 'doe nlp usage', # user_agent is just a description
+                     user_agent='doe nlp usage',  # user_agent is just a description
                      username='sisyphus_bot',
-                     password='Sympler1~') 
+                     password='Sympler1~')
 print(("I am reddit bot {0}".format(reddit.user.me())))
 
 # chosen_subreddits = [ 'Fitness', 'java', 'python','datascience', 'MachineLearning']
@@ -35,16 +37,27 @@ chosen_subreddits = ['StrangerThings', 'TheUpsideDown', 'Stranger_Things', 'netf
 for i in range(len(chosen_subreddits)):
     subreddit = reddit.subreddit(chosen_subreddits[i])
     db_tuple = (subreddit.id, chosen_subreddits[i], subreddit.title, int(subreddit.created), 0)
-    print (db_tuple)
+    print(db_tuple)
     sql_query = """INSERT INTO main_subreddits VALUES (%s, %s, %s, %s, %s)"""
-    cur.execute(sql_query, db_tuple) # use tuple to insert
+    cur.execute(sql_query, db_tuple)  # use tuple to insert
 
-subreddits_df = pd.read_sql("SELECT * FROM main_subreddits", con) # <clddlass 'pandas.core.frame.DataFrame'>
+############# database is down ##############
+# subreddit -> pandas dataframe
+pull_df = pd.read_sql("SELECT * FROM main_subreddits", con)  # <clddlass 'pandas.core.frame.DataFrame'>
 
-# Note: happens in 1 thread so the comments_cnt limit is still effective
-def insert_to_db(subr, subreddit_id, comments_cnt):
+# Parse subreddits-->submissions-->comments and save to SQL
+for i in range(pull_df.shape[0]):
+    t_start = time.time()
+    print(("Subreddit " + str(i + 1) + " / " +
+           str(pull_df.shape[0]) + ": " + pull_df['title'][i]))
+    # deal with subreddit
+    subreddit = reddit.subreddit(pull_df['name'][i])
+    subreddit_id = pull_df['id'][i]
+    submissions_cnt = 0
+    comment_count = 0
     # deal with submissions
-    for submission in subr.hot(limit=HOT_CNT):  # this step connects the internet?
+    for submission in subreddit.hot(limit=HOT_CNT):  # this step connects the internet?
+        submissions_cnt += 1
         submission.comments.replace_more(limit=0)  # For deep comments
         submission_tuple = (submission.id, subreddit_id, submission.selftext, int(submission.created))
         submission_query = "INSERT INTO main_submissions VALUES (%s, %s, %s, %s)"
@@ -54,45 +67,26 @@ def insert_to_db(subr, subreddit_id, comments_cnt):
         comment_list = submission.comments.list()
         for comment in comment_list:
             comment_tuples.append((comment.id, subreddit_id,
-                                   submission.id, comment.body))
+                                   submission.id, str(comment.body)))
         if len(comment_tuples) > 0:
             comment_str = b','.join(cur.mogrify("(%s,%s,%s,%s)", x) for x in comment_tuples).decode()
             cur.execute("INSERT INTO main_comments VALUES " + comment_str)
-        comments_cnt += len(comment_list)
-        if comments_cnt > COMMENTS_THRESHOLD:
-            break
 
-def gen_args_list():
-    res = []
-    # Parse subreddits-->submissions-->comments and save to SQL
-    for idx in range(subreddits_df.shape[0]):
-        # deal with subreddit
-        args = (reddit.subreddit(subreddits_df['name'][idx]), subreddits_df['id'][idx], 0)
-        res.append(args)
-    return res
+        comment_count += len(comment_list)
+        # The rest is for pretty tracking of progress
+        sys.stdout.write("\rComments processed: {0}, Submissions processed: {1}".format(comment_count,
+                                                                                        submissions_cnt))  # print i, comma means wait for all to finish. \r and \n cannot be used together
+        sys.stdout.flush()
+        if comment_count > COMMENTS_THRESHOLD: break
 
-# multi-threading, more see https://rednafi.github.io/digressions/python/2020/04/21/python-concurrent-futures.html
-# threading difficulties:
-# 1. Identify IO/CPU bottleneck
-# 2. How to avoid data overflow when developing (avoid database explosion)
-# 3. How to apply restrictions within threading
-# 4. Thread on which layer
-args_list = gen_args_list()
-with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-    future_results = {executor.submit(insert_to_db, *arg): arg for arg in args_list}
-    for future in concurrent.futures.as_completed(future_results):
-        try:
-            _ = future.result()
-        except Exception as exc:
-            print('generated an exception: %s' % exc)
+    print(('  Runtime: ' + str(int(time.time() - t_start)) + "s"))
+    print(('-' * 50))
 
-
-#Check the total amount of submissions and comments downloaded. It's rolling.
+# Check the total amount of submissions and comments downloaded. It's rolling.
 all_comments = pd.read_sql("SELECT * FROM main_comments", con)
 all_submissions = pd.read_sql("SELECT * FROM main_submissions", con)
 print(("Total number of comments downloaded:", all_comments.shape[0]))
 print(("Total number of submissions downloaded:", all_submissions.shape[0]))
-
 
 con.commit()
 cur.close()
