@@ -24,6 +24,8 @@ from nltk.tokenize import WordPunctTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
 from sklearn.datasets import fetch_20newsgroups
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 # preprocess and experiments parameters
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2' # cut off the trivial warning
@@ -76,7 +78,7 @@ def gen_vocab(data1, data2):
 	# freq = Counter(vocab)
 	vocab = set(vocab)
 	total_words = len(vocab)
-	print "vocabulary size: ",len(vocab) # nearly 20k vocab
+	print("vocabulary size: ",len(vocab)) # nearly 20k vocab
 	return vocab, total_words
 
 def get_word_2_index(vocab):
@@ -152,7 +154,7 @@ class DataManager(object):
 
 def main():
 	################## non tf part #################
-	print "\nlet's roll"
+	print("\nlet's roll")
 	old_time = time.time() 
 	# load sklearn text data
 	categories = ["comp.graphics","sci.space","rec.sport.baseball"]
@@ -160,8 +162,8 @@ def main():
 	newsgroups_test = fetch_20newsgroups(subset='test', categories=categories) #  <class 'sklearn.utils.Bunch'>
 	train_data, train_target = newsgroups_train.data[:data_cnt], newsgroups_train.target[:data_cnt]
 	test_data, test_target = newsgroups_test.data[:data_cnt], newsgroups_test.target[:data_cnt]
-	print 'total texts in train:',len(train_data)
-	print 'total texts in test:',len(test_data)
+	print('total texts in train:',len(train_data))
+	print('total texts in test:',len(test_data))
 	# gen vocab, total_words and worddict
 	vocab, total_words = gen_vocab(train_data, test_data)
 	word2index = get_word_2_index(vocab)
@@ -233,10 +235,10 @@ def main():
 
 				# Display logs per epoch step
 				if epoch % display_step == 0:
-					print "Epoch:", '%04d' % (epoch+1), "loss=", \
-						"{:.9f}".format(avg_cost)
-			print "Optimization Finished!"
-		print 'Runtime: ' + str(int(time.time() - old_time)) + "s"	
+					print("Epoch:", '%04d' % (epoch+1), "loss=", \
+						"{:.9f}".format(avg_cost))
+			print("Optimization Finished!")
+		print('Runtime: ' + str(int(time.time() - old_time)) + "s")	
 
 if __name__ == "__main__":
 	main()

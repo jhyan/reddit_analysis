@@ -61,7 +61,7 @@ for i, subreddit_id in enumerate(all_subreddits):
 # stemmer and filter stop words, build vocabulary
 lancaster = nltk.LancasterStemmer() # apply lancaster stemmer
 stopwords = stopwords.words('english') # 153 stop words. a list.
-for subreddit, subreddit_comments in subreddit_to_comment_tokens_dict.items():
+for subreddit, subreddit_comments in list(subreddit_to_comment_tokens_dict.items()):
 	tokens_stemed = []
 	for comment in subreddit_comments:
 		tokens = WordPunctTokenizer().tokenize(comment)
@@ -86,15 +86,15 @@ docs = [subreddit_to_comment_tokens_dict[subreddit] for subreddit in chosen_subr
 tfidf_matrix = vect.fit_transform(docs) # <class 'scipy.sparse.csr.csr_matrix'>
 # print tfidf_matrix.shape to see the shape of the matrix
 
-print "chosen subreddits: ", chosen_subreddits
+print(("chosen subreddits: ", chosen_subreddits))
 x = (tfidf_matrix * tfidf_matrix.T).A # numpy.darray. class object multiplication. implies the cos similarity: one doc tfidf vector cosine another one
 df = pd.DataFrame(x, columns=chosen_subreddits, index=chosen_subreddits)
 
 # draw figure
 import seaborn as sns
 sns.heatmap(df, annot = True, cmap='PuBu') # cmap means color mapping
-print df
+print(df)
 plt.xticks(rotation = 5)
-print 'Runtime: ' + str(int(time.time() - old_time)) + "s"
+print('Runtime: ' + str(int(time.time() - old_time)) + "s")
 plt.savefig('./subreddits_analysis_result.png')
 
