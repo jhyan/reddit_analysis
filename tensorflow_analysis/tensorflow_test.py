@@ -23,6 +23,8 @@ from nltk.tokenize import WordPunctTokenizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from collections import Counter
 from sklearn.datasets import fetch_20newsgroups
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 # preprocess and experiments parameters
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # cut off the trivial warning
@@ -68,6 +70,7 @@ def gen_tokens(text):
 
 
 def gen_vocab(data1, data2):
+<<<<<<< HEAD:tensorflow_test.py
     """
     build the vocabulary set
     """
@@ -81,6 +84,20 @@ def gen_vocab(data1, data2):
     print("vocabulary size: ", len(vocab))  # nearly 20k vocab
     return vocab, total_words
 
+=======
+	"""
+	build the vocabulary set
+	"""
+	vocab = [] 
+	for data in [data1, data2]: 
+		for text in data:
+			vocab.extend(gen_tokens(text)) 
+	# freq = Counter(vocab)
+	vocab = set(vocab)
+	total_words = len(vocab)
+	print("vocabulary size: ",len(vocab)) # nearly 20k vocab
+	return vocab, total_words
+>>>>>>> origin/python3_migration:tensorflow_analysis/tensorflow_test.py
 
 def get_word_2_index(vocab):
     '''
@@ -156,6 +173,7 @@ class DataManager(object):
 
 
 def main():
+<<<<<<< HEAD:tensorflow_test.py
     ################## non tf part #################
     print("\nlet's roll")
     old_time = time.time()
@@ -267,6 +285,94 @@ def main():
             print("Optimization Finished!")
         print('Runtime: ' + str(int(time.time() - old_time)) + "s")
 
+=======
+	################## non tf part #################
+	print("\nlet's roll")
+	old_time = time.time() 
+	# load sklearn text data
+	categories = ["comp.graphics","sci.space","rec.sport.baseball"]
+	newsgroups_train = fetch_20newsgroups(subset='train', categories=categories)
+	newsgroups_test = fetch_20newsgroups(subset='test', categories=categories) #  <class 'sklearn.utils.Bunch'>
+	train_data, train_target = newsgroups_train.data[:data_cnt], newsgroups_train.target[:data_cnt]
+	test_data, test_target = newsgroups_test.data[:data_cnt], newsgroups_test.target[:data_cnt]
+	print('total texts in train:',len(train_data))
+	print('total texts in test:',len(test_data))
+	# gen vocab, total_words and worddict
+	vocab, total_words = gen_vocab(train_data, test_data)
+	word2index = get_word_2_index(vocab)
+	n_input = total_words # Words in vocab
+	# define instance of data manager
+	dm = DataManager(train_data,train_target,test_data,test_target,batch_size)
+
+	###################  tf part ###################
+	with tf.Graph().as_default():
+		# input place holder
+		with tf.name_scope('inputs'):
+			input_tensor = tf.placeholder(tf.float32,[None, n_input],name="input") # place holder defines the dimension of tensor
+			output_tensor = tf.placeholder(tf.float32,[None, n_classes],name="output") 
+
+		# construct model
+		out1,r1 = add_layer(input_tensor, n_input, n_hidden_1, activation_f=activation_f)
+		out2,r2 = add_layer(out1, n_hidden_1, n_hidden_2, activation_f=activation_f)
+		out3,r3 = add_layer(out2, n_hidden_2, n_hidden_3, activation_f=activation_f)
+		prediction,r4 = add_layer(out3, n_hidden_3, n_classes) # no activation for the output layer
+		# define loss, optimizer, accuracy
+		with tf.name_scope('loss'):
+			# Loss function with L2 Regularization with beta=0.01
+			regularizers = r1 + r2 + r3 # r4 cannot be added
+			loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=output_tensor)) # <class 'tensorflow.python.framework.ops.Tensor'>
+			loss = tf.reduce_mean(loss + beta * regularizers)
+		with tf.name_scope('optimizer'):
+			optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss) # <class 'tensorflow.python.framework.ops.Operation'>
+		with tf.name_scope('Accuracy'):
+		    # argmax is used since the logits
+		    correct_prediction = tf.equal(tf.argmax(prediction, 1), tf.argmax(output_tensor, 1))
+		    # 1D tensor --> 1 float vector --> calculate the rate e.g. 7/10
+		    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) # Casts a tensor to a new type. Tensor("Mean_1:0", shape=(), dtype=float32)
+
+		###### merge all summaries into a single "operation" which we can execute in a session 
+		tf.summary.scalar("cost", loss) 
+		tf.summary.scalar("accuracy", accuracy)
+		summary_op = tf.summary.merge_all()
+		###### end of merge summary #######################
+
+
+		# Initializing the variables
+		init = tf.global_variables_initializer()
+		# Launch the graph
+		with tf.Session() as sess:
+			# create log writer object and init session
+			tail = gen_logfile_name(learning_rate, n_hidden_1, n_hidden_2, n_hidden_3, str(activation_f).split()[1], keep_prob)
+			train_writer = tf.summary.FileWriter("logs/train/" + tail, sess.graph)
+			test_writer = tf.summary.FileWriter("logs/test/" + tail, sess.graph)
+			sess.run(init)
+
+		    # Training cycle
+			for epoch in range(training_epochs):
+				avg_cost = 0.
+				total_batch = int(len(train_data)/batch_size)
+				# Loop over all batches
+				for i in range(dm.batches_in_epoch):
+					batch_xTr,batch_yTr = dm.get_batch(dm.xTr,dm.yTr,i,dm.batch_size,total_words,word2index)
+					# print (batch_xTr.shape, batch_yTr.shape)
+
+					# Training data. Run cost, summary, optimizer
+					cTr,_, train_summary = sess.run([loss,optimizer,summary_op], feed_dict={input_tensor: batch_xTr,output_tensor:batch_yTr})
+					avg_cost += cTr / total_batch
+					train_writer.add_summary(train_summary, epoch * dm.batches_in_epoch + i) # subtle equation
+
+					# Testing data. Cut the optimizer to avoid training while evaluating!!
+					batch_xTe,batch_yTe = dm.get_batch(dm.xTe,dm.yTe,0,len(dm.xTe),total_words,word2index)
+					cTe,test_summary = sess.run([loss,summary_op], feed_dict={input_tensor:batch_xTe,output_tensor:batch_yTe})
+					test_writer.add_summary(test_summary, epoch * dm.batches_in_epoch + i)
+
+				# Display logs per epoch step
+				if epoch % display_step == 0:
+					print("Epoch:", '%04d' % (epoch+1), "loss=", \
+						"{:.9f}".format(avg_cost))
+			print("Optimization Finished!")
+		print('Runtime: ' + str(int(time.time() - old_time)) + "s")	
+>>>>>>> origin/python3_migration:tensorflow_analysis/tensorflow_test.py
 
 if __name__ == "__main__":
     main()

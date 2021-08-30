@@ -1,0 +1,10 @@
+venv/
+venv/*
+*.pyc
+logfile
+*.html
+.DS_Store
+logs
+tensorflow_analysis/logs/
+*.bak
+.idea/

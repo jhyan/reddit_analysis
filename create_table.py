@@ -21,6 +21,7 @@ try:
                   total_submissions INT NOT NULL
                   )
                   """)
+      print ("Created table main_subreddits")
 except:
       print ("table main_subreddits already exists")
 
@@ -36,6 +37,7 @@ try:
                   created INT NOT NULL
                   )
                   """)
+      print ("Created table main_submissions")
 except:
       print ("table main_submissions already exists")
 
@@ -50,12 +52,13 @@ try:
                   content TEXT
                   )
                   """)
+      print ("Created table main_comments")
 except:
       print ("table main_comments already exist")
 
 
 con.commit()
 
-# no close here since con and cur will be used in future
+# Notie that the below is commented out since con and cur will be used in future
 # cur.close()
 # con.close()
