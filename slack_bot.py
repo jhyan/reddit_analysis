@@ -98,18 +98,18 @@ def parse_history_dict(history):
         ret.append(msg)
         if i == len(history)-1:
             oldest_ts = h['ts'] 
-    print "ret: ", ret
+    print ("ret: ", ret)
     return ret, oldest_ts
 
 
 if __name__ == "__main__":
 
     channels = list_channels() # returns a dictionary
-    print "channels: ", channels[TARGET_CHANNEL]
+    print ("channels: ", channels[TARGET_CHANNEL])
 
     # takea advantage of the latest and oldest timestamp to achieve more chunks
     chunks, rest = int(math.ceil(HISTORY_CNT/1000)), HISTORY_CNT%1000 # max capacity is 1000
-    print chunks, rest
+    print (chunks, rest)
     history_lst, oldest_ts = [], time.time() # default to be now not None
     for i in range(chunks):
         if i == chunks-1 and rest != 0:
@@ -123,11 +123,11 @@ if __name__ == "__main__":
             latest = oldest_ts
             ) 
         history_lst_chunk, oldest_ts = parse_history_dict(history_dict)
-        print "chunk {0} size {1}".format(i, len(history_lst_chunk))
+        print ("chunk {0} size {1}".format(i, len(history_lst_chunk)))
         history_lst.extend(history_lst_chunk)
         # print history_lst, oldest_ts
-    print "length of fetched history: ", history_lst  
-    print "save files"
+    print ("length of fetched history: ", history_lst  )
+    print ("save files")
     with open('slack_history.txt', 'w') as f:
         for line in history_lst:
             try:

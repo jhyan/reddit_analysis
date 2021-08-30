@@ -26,7 +26,7 @@ try:
 	   host = host,
 	   port = port
 	)
-	con = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="5432")
+	con = psycopg2.connect(database="testdb", user="postgres", password="pass123", host="127.0.0.1", port="7890")
 	cur = con.cursor()
 except:
-	print "connection failure"
+	print ("connection failure")

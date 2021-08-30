@@ -40,7 +40,7 @@ for i in range(len(chosen_subreddits)):
     subreddit = reddit.subreddit(chosen_subreddits[i]) # get subreddit by a string name
     # store subreddit data into the database
     db_tuple = (subreddit.id, chosen_subreddits[i], subreddit.title, int(subreddit.created), 0)
-    print db_tuple
+    print (db_tuple)
     sql_query = """INSERT INTO main_subreddits VALUES (%s, %s, %s, %s, %s)"""
     cur.execute(sql_query, db_tuple) # use tuple to insert
 
@@ -91,18 +91,18 @@ for i in range(pull_df.shape[0]):
         # Exit if you've downloaded more than comments_threshold comments
         if comment_count > comments_threshold: break
     
-    print '  Runtime: ' + str(int(time.time() - t_start)) + "s"
-    print '-' * 50
+    print ('  Runtime: ' + str(int(time.time() - t_start)) + "s")
+    print ('-' * 50)
 
 #Check the total amount of submissions and comments downloaded. It's rolling.
 all_comments = pd.read_sql("SELECT * FROM main_comments", con)
 all_submissions = pd.read_sql("SELECT * FROM main_submissions", con)
-print "Total number of comments downloaded:", all_comments.shape[0]
-print "Total number of submissions downloaded:", all_submissions.shape[0]
+print ("Total number of comments downloaded:", all_comments.shape[0])
+print ("Total number of submissions downloaded:", all_submissions.shape[0])
 
 
 con.commit()
 cur.close()
 con.close()
 
-print 'Runtime: ' + str(int(time.time() - old_time)) + "s"
+print( 'Runtime: ' + str(int(time.time() - old_time)) + "s")

@@ -96,7 +96,7 @@ def gen_data(all_subreddits):
 		submission_frame = pd.read_sql(submission_query, con)
 		submission_time_lookup.update(dict(zip(submission_frame.id, submission_frame.created)))
 	if DEBUG == 2:
-		print "data keys: ", data.keys()
+		print ("data keys: ", data.keys())
 	return data, submission_time_lookup
 
 def gen_docs(data, docs, submissions, 
@@ -110,7 +110,7 @@ def gen_docs(data, docs, submissions,
 	four layers: subreddit --> submission --> comments --> token
 	'''
 	if DEBUG == 2:
-		print "submission id and length relations:"
+		print ("submission id and length relations:")
 	for subreddit, inner in data.items():
 		for submission_id, comments in inner.items():
 			tokens_stemed = []
@@ -136,7 +136,7 @@ def gen_docs(data, docs, submissions,
 				# 						if alpha_filter(t) and t.lower() not in stopwords]) 
 			# vocab.extend(gen_vocabulary(tokens_stemed, VOCAB_CNT))
 			if DEBUG == 2:
-				print "{0} has {1} tokens".format(submission_id, len(tokens_stemed))
+				print ("{0} has {1} tokens".format(submission_id, len(tokens_stemed)))
 			submissions.append((submission_id, len(tokens_stemed)))
 			docs.append(" ".join(tokens_stemed))
 
@@ -151,7 +151,7 @@ def addon_docs(submission_time_lookup, QUESTION):
 	gen_docs(add_on, docs, submissions)
 	# vocab = set(vocab)
 	if DEBUG == 2:
-		print 'there are {0} submissions and {1} docs\n'.format(len(submissions), len(docs))
+		print ('there are {0} submissions and {1} docs\n'.format(len(submissions), len(docs)))
 
 def gen_stats(docs):
 	'''
@@ -183,22 +183,22 @@ def match(stats, QUESTION):
 	print ("|---id---|-length-|--score-|---time-------|--url------------")
 	if DEBUG:
 		for i in nlp_related:
-			print i + ['url: redd.it/{0}'.format(i[0])]
-		print "+++++finished select nlp score\++++++\n"
+			print (i + ['url: redd.it/{0}'.format(i[0])])
+		print ("+++++finished select nlp score\++++++\n")
 	length_related = sorted(nlp_related, key = lambda x: -int(x[1]))[:LENGTH_CRITERIA]
 	if DEBUG:
 		for i in length_related:
-			print i + ['url: redd.it/{0}'.format(i[0])]
-		print "+++++finished select length+++++\n"
+			print (i + ['url: redd.it/{0}'.format(i[0])])
+		print ("+++++finished select length+++++\n")
 	time_related = sorted(length_related, key = lambda x: -int(x[-1]))[:TIME_CRITERIA]
 	if DEBUG:	
 		for i in time_related:
-			print i + ['url: redd.it/{0}'.format(i[0])]
-		print "+++++finished select time+++++\n"
+			print (i + ['url: redd.it/{0}'.format(i[0])])
+		print ("+++++finished select time+++++\n")
 
-	print "Final match id for question: {0}".format(QUESTION)
+	print ("Final match id for question: {0}".format(QUESTION))
 	for i in time_related:
-		print "redd.it/{0}".format(i[0])
+		print ("redd.it/{0}".format(i[0]))
 
 
 
@@ -216,11 +216,11 @@ if __name__ == '__main__':
 	gen_docs(data, docs, submissions)
 
 	for i,q in enumerate(QUESTIONS):
-		print 'Question {0}: {1}'.format(i+1,q)
+		print ('Question {0}: {1}'.format(i+1,q))
 		addon_docs(submission_time_lookup, q)
 		# genetate stats and output the final match!
 		stats = gen_stats(docs)
 		match(stats, q)
 		docs.pop() # pop the last doc(question) and prepare for the next one 
-		print 'Runtime till now: ' + str(int(time.time() - OLD_TIME)) + "s"
-		print '\n\n\n\n'
+		print ('Runtime till now: ' + str(int(time.time() - OLD_TIME)) + "s")
+		print ('\n\n\n\n')

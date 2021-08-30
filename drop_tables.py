@@ -13,9 +13,9 @@ from db_connect import *
 # drop all the tables to prevent duplicate data
 cur.execute("SELECT table_schema,table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_schema,table_name")
 rows = cur.fetchall()
-print rows
+print (rows)
 for row in rows:
-    print "dropping table:", row[1]
+    print ("dropping table:", row[1])
     cur.execute("drop table " + row[1] + " cascade")
-    print 'finish one'
+    print ('finish one')
 con.commit()

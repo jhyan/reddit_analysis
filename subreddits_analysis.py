@@ -103,7 +103,7 @@ docs = [data[k] for k in chosen_subreddits] # list of strings
 tfidf_matrix = vect.fit_transform(docs) # <class 'scipy.sparse.csr.csr_matrix'>
 # print tfidf_matrix.shape
 
-print "chosen subreddits: ", chosen_subreddits
+print ("chosen subreddits: ", chosen_subreddits)
 x = (tfidf_matrix * tfidf_matrix.T).A # numpy.darray. class object multiplication. implies the cos similarity: one doc tfidf vector cosine another one
 df = pd.DataFrame(x, columns=chosen_subreddits, index=chosen_subreddits)
 
@@ -111,6 +111,6 @@ df = pd.DataFrame(x, columns=chosen_subreddits, index=chosen_subreddits)
 import seaborn as sns
 sns.heatmap(df, annot = True, cmap='PuBu') # cmap is color mapping
 plt.xticks(rotation = 0)
-print 'Runtime: ' + str(int(time.time() - old_time)) + "s"
+print ('Runtime: ' + str(int(time.time() - old_time)) + "s")
 plt.show()
 
