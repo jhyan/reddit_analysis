@@ -126,7 +126,7 @@ class DataManager(object):
 		self.xTr, self.yTr = xTr, yTr
 		self.xTe, self.yTe = xTe, yTe
 		self.batch_size = batch_size
-		self.batches_in_epoch = int(len(self.xTe)/self.batch_size)
+		self.batches_in_epoch = int(len(self.xTr)/self.batch_size)
 
 	def get_batch(self,data,target,i,batch_size,total_words,word2index):
 		"""
