@@ -41,6 +41,7 @@ chosen_subreddits = ['StrangerThings', 'TheUpsideDown', 'Stranger_Things', 'netf
     sql_query = INSERT INTO main_subreddits VALUES (%s, %s, %s, %s, %s)
     cur.execute(sql_query, db_tuple) # use tuple to insert """
 
+#The i stands for the index and we expect this function to insert the subreddit data to the database.
 def insert_subreddits(i):
     subreddit = reddit.subreddit(chosen_subreddits[i]) # get subreddit by a string name
     #scrape all the posts and their comments from a list of subreddits
